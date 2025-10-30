@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="fr">
+    <meta charset="UTF-8">
+    <!--Page Title-->
+    <title>Hack-Oeil - Les CTFs de Cyrhades</title>
+    <!--Meta Keywords and Description-->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" title="Favicon" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="./assets/css/github.min.css">
+    <script src="./assets/js/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vérifie si la fenêtre est dans une iframe
+            if (window.self !== window.top) {
+                document.querySelectorAll('a').forEach((link) => {
+                    link.addEventListener('click', (event) => {
+                        const a = event.target.closest('a[href^="http"]');
+                        if (a) {
+                            event.preventDefault();
+                            window.parent.postMessage({
+                                type: "open-external",
+                                url: a.href
+                            }, "*");
+                        }
+                    });
+                });
+            }
+            // Active la coloration syntaxique :
+            if (window.hljs) {
+                hljs.highlightAll();
+            } else {
+                console.error("Highlight.js non chargé !");
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!--Main Content Area-->
+        <main id="content">
+            <!--Ctf-->
+            <section class="ctf scrollto">
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Challenge #494</h3>
+                            <h2 class="section-title">Unknown Public Key</h2>
+                            <p>
+                                Une équipe de police a repéré sur internet un individu suspecté de diriger une
+                                organisation terroriste. La police aimerait avoir accès à son identité réelle, mais
+                                l’individu est méfiant.
+                                <br /><br />
+                                Les policiers ont réussi à apprendre qu’il avait un compte dans une banque étrangère
+                                émettant des cartes particulières. Un compte est donc ouvert anonymement dans cette
+                                banque afin de mener une étude sur ces cartes. Voici ce qu’il en résulte:
+                                <br /><br />
+                                - Les cartes n’embarquent pas les certificats (clefs publiques RSA) et
+                                l’authentification de la carte se fait toujours en ligne.<br />
+                                - L’analyse via canaux auxiliaires de l’exécution de la signature RSA montre que le
+                                calcul ne s’effectue pas en temps constant.
+                                <br /><br />
+                                Une vaste opération pour identifier l’individu à l’aide de sa carte est mise en place.
+                                Il va s’agir de retrouver la clef publique de la carte du suspect puis ensuite
+                                d’interroger la banque étrangère sur le propriétaire du compte associé. Des terminaux de
+                                paiement permettant la mesure de courant ainsi que l’enregistrement de la séquence
+                                d’authentification sont discrètement distribués aux commerçants de la ville où l’on
+                                pense que le suspect réside.
+                                <br /><br />
+                                Par chance, au bout de quelques jours, en relevant les échanges de ces terminaux on
+                                récupère une trace d’une transaction avec ladite banque étrangère. Dans le fichier
+                                <code>output.txt</code>, il est affiché le message et sa signature avec la clef privée
+                                de la carte qui ont servi à l’authentification.
+                                <br /><br />
+                                Serez-vous capable de reconstruire la clef publique à l’aide de cet échange et de la
+                                trace associée ?
+                                <br /><br />
+                                <strong>Note :</strong> Le flag est sous la forme <code>FCSC{x}</code> où <code>x</code>
+                                est le SHA256 de la concaténation de l’exposant public e puis du module public
+                                <code>n</code>.
+                                <br />
+                            <pre><code class="language-python">e = e.to_bytes((e.bit_length() + 7) // 8, "big")
+n = n.to_bytes((n.bit_length() + 7) // 8, "big")
+
+h = hashlib.sha256()
+h.update(e)
+h.update(n)
+print(f"FCSC{{{h.hexdigest()}}}")</code></pre>
+
+                            </p>
+                            <h4>Fichiers à étudier</h4>
+                            <p>
+                                - unknown-public-key.tar.xz<br />
+                                - output.txt
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>FCSC 2024</h3>
+                            <h2 class="section-title">Hackropole</h2>
+                            <p class="section-subtitle">
+                                Lien officiel :
+                                <a target="_blank"
+                                    href="https://hackropole.fr/fr/challenges/hardware/fcsc2024-hardware-unknown-public-key/">FCSC
+                                    2024 -
+                                    Unknown Public Key
+                                </a>
+                                <br />
+                                Auteurs: Neige et erdnaxe
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Apprentissage</h3>
+                            <h2 class="section-title">Documentations et Vidéos</h2>
+                            <p class="section-subtitle">
+                                Aucune documentation pour le moment
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="row clearfix">
+                    <div class="col-1">
+                        <div class="section-heading">
+                            <h3>Aide</h3>
+                            <h2 class="section-title">Conseils et indices</h2>
+                            <p class="section-subtitle">
+                                <a target="_blank"
+                                    href="https://discord.com/channels/1175764392307077120/1175764601716092948">Fil sur
+                                    le Discord</a>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <!--End of Ctf-->
+        </main>
+        <!--End Main Content Area-->
+
+        <a id="scrollUp" href="#wrapper" style="position: fixed; z-index: 1000;"
+            aria-label="Remonter en haut de la page" title="Remonter en tête de site"></a>
+    </div>
+</body>
+
+</html>
